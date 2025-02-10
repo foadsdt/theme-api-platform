@@ -3,11 +3,28 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Controller\ThemeController;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: "App\Repository\ThemeRepository")]
 #[ApiResource]
+#[ApiResource(
+    operations: [
+        new Post(
+            controller: ThemeController::class . '::createTheme'
+        ),
+        new Put(
+            controller: ThemeController::class . '::updateTheme'
+        ),
+        new Delete(
+            controller: ThemeController::class . '::deleteTheme'
+        )
+    ]
+)]
 class Theme
 {
     #[ORM\Id]
@@ -54,7 +71,7 @@ class Theme
         return $this;
     }
 
-    public function isIsDefault(): bool
+    public function getIsDefault(): bool
     {
         return $this->isDefault;
     }
